@@ -112,6 +112,15 @@ GarageCmdAccessory.prototype.pollState = function() {
           accessory.garageDoorService.getCharacteristic(Characteristic.TargetDoorState)
             .setValue(currentDeviceState, null, 'pollState');
         }
+        //Set the target state for transition states
+        else if(currentDeviceState === Characteristic.CurrentDoorState.OPENING) {
+          accessory.garageDoorService.getCharacteristic(Characteristic.TargetDoorState)
+            .setValue(Characteristic.CurrentDoorState.OPEN, null, 'pollState');
+        }
+        else if(currentDeviceState === Characteristic.CurrentDoorState.CLOSING) {
+          accessory.garageDoorService.getCharacteristic(Characteristic.TargetDoorState)
+            .setValue(Characteristic.CurrentDoorState.CLOSED, null, 'pollState');
+        }
         accessory.garageDoorService.setCharacteristic(Characteristic.CurrentDoorState, currentDeviceState);
       })
     },
